@@ -5,6 +5,11 @@ Version 1.5.0 · for Anchor Hosting (CaptainCore) accounts
 Search all your Anchor sites and jump into wp-admin with a one-click login link, from the toolbar,
 the address bar, or the site's own login page.
 
+<img width="453" height="597" alt="anchor-add-on-popup" src="https://github.com/user-attachments/assets/5cbf420b-820c-40f4-a192-7e8b431744a2" />
+
+<img width="597" height="723" alt="image" src="https://github.com/user-attachments/assets/94c91c72-bc3a-4535-928a-3b500074eb25" />
+
+
 > **Unofficial.** This is an independent, community-made extension. It is not affiliated with, endorsed by,
 > or supported by Anchor Hosting or CaptainCore. It uses the public CaptainCore API with your own credentials.
 
@@ -33,7 +38,7 @@ On a Mac, **Option** is the Alt key and **Return** is the Enter key.
 
 ## 1. How to Install (Developer Mode)
 1. Download or clone this repository to your computer:
-   `git clone https://github.com/YOUR-USERNAME/anchor-magic-login.git`
+   `git clone https://github.com/m4ttbru/anchor-magic-login.git`
    Or click **Code → Download ZIP** on GitHub and unzip it.
 
    Chrome runs the extension from this folder, so keep it somewhere permanent (not Downloads, where it's easy
@@ -47,6 +52,9 @@ On a Mac, **Option** is the Alt key and **Return** is the Enter key.
 6. Click the puzzle-piece icon in the toolbar and **pin** Anchor Magic Login.
 
 ## 2. Connect your Anchor account
+Until you do this, the popup shows a **Connect your Anchor account** notice with an **Open Settings** button
+and a link back to this section.
+
 1. In Anchor, go to **Profile → Application passwords**, type `Chrome extension`, and click **+ New password**.
    Copy the password right away, because it's shown only once.
 2. Open the extension's **Settings** (link at the bottom of the popup, or right-click the icon → Options; on a Mac, Control-click also works).
