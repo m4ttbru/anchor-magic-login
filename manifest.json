@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Anchor Magic Login",
+  "version": "1.5.0",
+  "description": "Search your Anchor Hosting sites and jump straight into wp-admin with a magic login link. Unofficial; not affiliated with Anchor Hosting.",
+  "permissions": ["storage", "activeTab", "tabs", "clipboardWrite", "scripting"],
+  "host_permissions": ["https://anchor.host/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Anchor Magic Login",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "omnibox": { "keyword": "wp" },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+A" },
+      "description": "Open Anchor Magic Login"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

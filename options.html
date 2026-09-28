@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Anchor Magic Login — Settings</title>
+  <style>
+    :root { --bg: #f8fafc; --panel: #fff; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0; --accent: #2563eb; --ok: #15803d; --err: #b91c1c; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0b1120; --panel: #0f172a; --fg: #e2e8f0; --muted: #94a3b8; --line: #1e293b; --accent: #3b82f6; --ok: #4ade80; --err: #fca5a5; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 520px; margin: 48px auto; padding: 0 16px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    h1 { font-size: 20px; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+    h1 img { width: 28px; height: 28px; }
+    p.sub { color: var(--muted); margin: 0 0 20px; }
+    label { display: block; font-weight: 600; margin: 14px 0 6px; }
+    .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
+    input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); font: inherit; }
+    input:focus { outline: none; border-color: var(--accent); }
+    .actions { display: flex; gap: 10px; align-items: center; margin-top: 20px; }
+    button { font: inherit; font-weight: 600; border: 0; border-radius: 8px; padding: 9px 16px; cursor: pointer; background: var(--accent); color: #fff; }
+    button.ghost { background: none; color: var(--muted); border: 1px solid var(--line); }
+    button[disabled] { opacity: .6; cursor: default; }
+    #result { margin-top: 16px; font-size: 13px; min-height: 20px; }
+    #result.ok { color: var(--ok); }
+    #result.err { color: var(--err); }
+    .note { margin-top: 20px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <h1><img src="icons/icon128.png" alt="">Anchor Magic Login</h1>
+      <p class="sub">Connect to your Anchor Hosting account.</p>
+
+      <form id="form">
+        <label for="user">Username <span class="hint">(your WordPress login on anchor.host; email usually works too)</span></label>
+        <input id="user" autocomplete="username" required>
+
+        <label for="pass">Application password <span class="hint">(Profile → Application passwords → New password)</span></label>
+        <input id="pass" type="password" autocomplete="off" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx" required>
+
+        <div class="actions">
+          <button type="submit" id="save">Save &amp; test</button>
+          <button type="button" class="ghost" id="clear">Remove saved login</button>
+        </div>
+      </form>
+      <div id="result"></div>
+
+      <div class="note">
+        Your login is stored only in this Chrome profile on this computer (chrome.storage.local) and is sent only to anchor.host.
+        Create a separate application password named “Chrome extension” so you can revoke it on its own.
+      </div>
+    </div>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>
