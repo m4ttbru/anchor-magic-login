@@ -5,19 +5,30 @@
   <title>Anchor Magic Login</title>
   <style>
     :root {
+      /* Lets Chrome draw its own controls (search clear button, focus rings, autofill) to match the theme. */
+      color-scheme: light dark;
       --bg: #ffffff; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0;
       --row-hover: #f1f5f9; --row-sel: #e0ecff; --accent: #2563eb; --accent-hover: #1d4ed8;
-      --chip: #eef2ff; --chip-fg: #3730a3; --warn: #b45309; --err: #b91c1c; --ok: #15803d;
+      /* Filled buttons have their own color: the lighter dark-mode --accent reads well as link text
+         but is too light behind white button text (3.7:1). */
+      --btn: #2563eb; --btn-hover: #1d4ed8;
+      --chip: #eef2ff; --chip-fg: #3730a3; --chip-hover: #e0e7ff; --warn: #b45309; --err: #b91c1c; --ok: #15803d;
       --card: #eff6ff; --card-line: #bfdbfe; --menu: #ffffff; --shadow: 0 8px 24px rgba(15,23,42,.18);
       --scroll: #cbd5e1; --scroll-hover: #94a3b8;
+      /* Loaded favicons sit on this tile. Transparent in light mode; see the dark value for why. */
+      --fav-tile: transparent; --fav-img: 20px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #0b1120; --fg: #e2e8f0; --muted: #94a3b8; --line: #1e293b;
         --row-hover: #111a2e; --row-sel: #16254a; --accent: #3b82f6; --accent-hover: #2563eb;
-        --chip: #1e293b; --chip-fg: #c7d2fe; --warn: #fbbf24; --err: #fca5a5; --ok: #4ade80;
+        --btn: #2563eb; --btn-hover: #1d4ed8;
+        --chip: #1e293b; --chip-fg: #c7d2fe; --chip-hover: #334155; --warn: #fbbf24; --err: #fca5a5; --ok: #4ade80;
         --card: #0f1d3a; --card-line: #1e3a8a; --menu: #111a2e; --shadow: 0 8px 24px rgba(0,0,0,.5);
         --scroll: #0c3d6e; --scroll-hover: #1a5a9a;
+        /* Many favicons are dark logos on a transparent background and vanish on a dark popup,
+           so give them a light tile (with a little padding) the way Chrome's bookmarks bar does. */
+        --fav-tile: #e2e8f0; --fav-img: 16px;
       }
     }
     * { box-sizing: border-box; }
@@ -63,7 +74,6 @@
     #list::-webkit-scrollbar-track { background: transparent; }
     #list::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 6px; min-height: 30px; }
     #list::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); }
-    .site .id { opacity: .6; }
     .section { padding: 8px 12px 2px; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
     .site { display: flex; align-items: center; gap: 6px; padding: 7px 12px; }
     /* Favicon, with a colored letter as the fallback when a site has none */
@@ -73,6 +83,8 @@
       font-size: 11px; font-weight: 700; color: #fff; background: var(--chip);
     }
     .fav img { width: 20px; height: 20px; object-fit: contain; display: block; }
+    .fav.has-img { background: var(--fav-tile); }
+    .fav.has-img img { width: var(--fav-img); height: var(--fav-img); }
     /* Compact action buttons */
     button.stg { padding: 5px 8px; font-size: 11px; letter-spacing: .04em; }
     button.go { padding: 0; width: 30px; height: 28px; display: flex; align-items: center; justify-content: center; }
@@ -87,11 +99,12 @@
     .site .tag { color: var(--warn); font-weight: 600; }
     button {
       font: inherit; font-weight: 600; border: 0; border-radius: 6px; cursor: pointer;
-      padding: 5px 10px; background: var(--accent); color: #fff; white-space: nowrap;
+      padding: 5px 10px; background: var(--btn); color: #fff; white-space: nowrap;
     }
-    button:hover { background: var(--accent-hover); }
+    button:hover { background: var(--btn-hover); }
     button.stg { background: var(--chip); color: var(--chip-fg); }
-    button.stg:hover { filter: brightness(0.95); }
+    /* A set hover color rather than a brightness filter: darkening an already-dark chip was invisible. */
+    button.stg:hover { background: var(--chip-hover); }
     button[disabled] { opacity: .6; cursor: default; }
     button.link { background: none; color: var(--accent); padding: 0; font-weight: 500; }
     button.link:hover { text-decoration: underline; background: none; }
@@ -106,6 +119,16 @@
     .site:hover button.pin, .site.sel button.pin, button.pin.pinned { visibility: visible; }
     button.pin.pinned { color: var(--accent); }
     .empty { padding: 24px 12px; text-align: center; color: var(--muted); }
+    /* "Connect your Anchor account" notice, shown until a login is saved */
+    .connect {
+      margin: 12px; padding: 16px; text-align: center;
+      background: var(--card); border: 1px solid var(--card-line); border-radius: 10px;
+    }
+    .connect b { display: block; font-size: 14px; margin-bottom: 4px; }
+    .connect p { margin: 0 0 12px; } /* body color, not muted: muted gray is under 4.5:1 on the blue card */
+    .connect button { padding: 7px 14px; }
+    a.guide { display: block; margin-top: 10px; font-size: 12px; color: var(--accent); text-decoration: none; }
+    a.guide:hover { text-decoration: underline; }
     footer {
       display: flex; align-items: center; gap: 10px; padding: 8px 12px; flex: none;
       border-top: 1px solid var(--line); color: var(--muted); font-size: 11px;

@@ -1,5 +1,8 @@
 const $ = s => document.querySelector(s);
 const DASHBOARD = 'https://anchor.host/account/';
+const README = 'https://github.com/m4ttbru/anchor-magic-login';
+const SETUP_URL = `${README}#2-connect-your-anchor-account`;
+const HELP_URL = `${README}#13-troubleshooting`;
 
 let sites = [];
 let byId = new Map();
@@ -248,7 +251,8 @@ function favicon(s, url) {
   img.addEventListener('load', () => {
     if (img.naturalWidth < 2) return img.remove(); // 1x1 placeholder = no real icon
     box.firstChild.remove(); // the letter
-    box.style.background = 'transparent';
+    box.style.background = ''; // drop the letter color so the theme's favicon tile shows
+    box.classList.add('has-img');
     img.style.cssText = '';
   });
   img.addEventListener('error', () => img.remove());
@@ -385,8 +389,27 @@ async function renderCurrent() {
 
 /* ---------- load ---------- */
 
+function guideLink(text, url) {
+  return el('a', { class: 'guide', href: url, textContent: text, onclick: e => { e.preventDefault(); openTab(url); } });
+}
+
+// Shown in place of the site list until a login is saved, so a first-time user sees what to do
+// next instead of an error. Checked before calling the API, so it never waits on the network.
+function showConnect() {
+  const list = $('#list');
+  list.textContent = '';
+  list.append(el('div', { class: 'connect' },
+    el('b', { textContent: 'Connect your Anchor account' }),
+    el('p', { textContent: 'Add your Anchor username and an application password to search your sites and log in.' }),
+    el('button', { textContent: 'Open Settings', onclick: () => chrome.runtime.openOptionsPage() }),
+    guideLink('Setup guide on GitHub ↗', SETUP_URL)
+  ));
+}
+
 async function load(force) {
   showMsg('');
+  const { user, pass } = await chrome.storage.local.get(['user', 'pass']);
+  if (!user || !pass) return showConnect();
   try {
     const data = await send({ type: 'getSites', force });
     sites = data.sites;
@@ -404,6 +427,7 @@ async function load(force) {
     if (/Settings/.test(e.message)) {
       d.append(el('br'), el('button', { textContent: 'Open Settings', style: 'margin-top:10px', onclick: () => chrome.runtime.openOptionsPage() }));
     }
+    d.append(guideLink('Troubleshooting ↗', HELP_URL));
     list.append(d);
   }
 }

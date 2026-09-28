@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <title>Anchor Magic Login — Settings</title>
   <style>
-    :root { --bg: #f8fafc; --panel: #fff; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0; --accent: #2563eb; --ok: #15803d; --err: #b91c1c; }
+    /* color-scheme lets Chrome draw the password field, autofill, focus rings and scrollbar to match the theme.
+       --btn stays the darker blue in dark mode so white button text keeps enough contrast (5.2:1). */
+    :root { color-scheme: light dark; --bg: #f8fafc; --panel: #fff; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0; --accent: #2563eb; --btn: #2563eb; --ok: #15803d; --err: #b91c1c; }
     @media (prefers-color-scheme: dark) {
-      :root { --bg: #0b1120; --panel: #0f172a; --fg: #e2e8f0; --muted: #94a3b8; --line: #1e293b; --accent: #3b82f6; --ok: #4ade80; --err: #fca5a5; }
+      :root { --bg: #0b1120; --panel: #0f172a; --fg: #e2e8f0; --muted: #94a3b8; --line: #1e293b; --accent: #3b82f6; --btn: #2563eb; --ok: #4ade80; --err: #fca5a5; }
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -20,7 +22,7 @@
     input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); font: inherit; }
     input:focus { outline: none; border-color: var(--accent); }
     .actions { display: flex; gap: 10px; align-items: center; margin-top: 20px; }
-    button { font: inherit; font-weight: 600; border: 0; border-radius: 8px; padding: 9px 16px; cursor: pointer; background: var(--accent); color: #fff; }
+    button { font: inherit; font-weight: 600; border: 0; border-radius: 8px; padding: 9px 16px; cursor: pointer; background: var(--btn); color: #fff; }
     button.ghost { background: none; color: var(--muted); border: 1px solid var(--line); }
     button[disabled] { opacity: .6; cursor: default; }
     #result { margin-top: 16px; font-size: 13px; min-height: 20px; }
