@@ -83,11 +83,11 @@ extension already uses that combination. That's why it sometimes needs setting b
   has a staging environment. Hover either button to see the domain it goes to.
 - Each site shows its **favicon**, loaded from the site's own `/favicon.ico`. WordPress serves the Site Icon there.
   Sites without an icon get a colored first letter instead. Icons load only as you scroll to them and are cached by Chrome.
-- Each row shows the site's **Anchor ID** in small text after the domain (e.g. `example.com · #123`).
-  Hovering the site name shows it too ("example.com · ID 123").
+- Each row shows the site's Anchor ID in small text after the domain (e.g. `example.com · ID 123`).
+  **Click the number to copy it**; it briefly reads "Copied" to confirm. Hovering the site name shows the ID too.
 - The list uses a slim 6px scrollbar that matches the light or dark theme.
 - **This tab** (a one-line strip under the search box) appears when your current tab is one of your sites,
-  showing its domain (plus "staging" when it's a staging site).
+  showing its domain (plus "staging" when it's a staging site) with the site's ID on a second line (click the number to copy it).
   - If you're **not** logged in, a login icon logs you in right there, in the same tab.
   - If you **are** already logged in, it shows **✓ Logged in** instead of the button. It detects this from WordPress's
     own markers: `<body class="logged-in">` or the admin bar on the front end, and `<body class="wp-admin">` in the dashboard.

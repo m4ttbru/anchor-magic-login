@@ -95,6 +95,24 @@ async function copyText(text) {
   ta.remove();
 }
 
+// "ID 123", where clicking the number copies it (handy for Anchor support tickets and API calls).
+// The number briefly reads "Copied" as confirmation, so there's no banner to shift the layout.
+function siteIdEl(id) {
+  const text = String(id);
+  const num = el('button', {
+    class: 'copyid', textContent: text, title: 'Copy site ID',
+    onclick: async e => {
+      e.stopPropagation();
+      await copyText(text);
+      num.textContent = 'Copied';
+      num.classList.add('copied');
+      clearTimeout(num.resetTimer);
+      num.resetTimer = setTimeout(() => { num.textContent = text; num.classList.remove('copied'); }, 1200);
+    }
+  });
+  return el('span', { class: 'id' }, 'ID ', num);
+}
+
 /* ---------- actions ---------- */
 
 async function login(site_id, env, btn) {
@@ -274,7 +292,7 @@ function siteRow(s, meta, index) {
     host.append(el('a', { href: url, target: '_blank', textContent: hostOf(url) }));
   }
   if (meta && meta.at) host.append(` · ${ago(meta.at)}`);
-  host.append(' · ', el('span', { class: 'id', textContent: `#${s.site_id}`, title: `Anchor site ID ${s.site_id}` }));
+  host.append(' · ', siteIdEl(s.site_id));
 
   const row = el('div', { class: 'site' + (index === sel ? ' sel' : '') },
     favicon(s, url),
@@ -375,6 +393,9 @@ async function renderCurrent() {
   nm.textContent = hostOf(match.home_url) || match.name;
   nm.title = `${match.name} · ID ${match.site_id}`;
   if (match.env === 'staging') nm.append(el('span', { class: 'tag', textContent: 'staging' }));
+  const sid = box.querySelector('.sid');
+  sid.textContent = '';
+  sid.append(siteIdEl(match.site_id));
   box.style.display = 'flex';
 
   const loggedIn = await isLoggedIn(tab.id);

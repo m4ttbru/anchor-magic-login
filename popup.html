@@ -54,13 +54,16 @@
       background: var(--bg); color: var(--fg); font: inherit; outline: none;
     }
     input[type=search]:focus { border-color: var(--accent); }
-    /* One-line "This tab" strip */
+    /* "This tab" strip: domain on the first line, Anchor site ID on the second */
     #current {
       display: none; flex: none; align-items: center; gap: 8px; min-height: 36px;
-      padding: 4px 12px; border-bottom: 1px solid var(--line); background: var(--card); font-size: 12px;
+      padding: 6px 12px; border-bottom: 1px solid var(--line); background: var(--card); font-size: 12px;
     }
     #current .label { flex: none; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-    #current .nm { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #current .info { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.35; }
+    #current .nm { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Body color rather than muted: muted gray is under 4.5:1 on the blue strip */
+    #current .sid { font-size: 11px; }
     #current .nm .tag { color: var(--warn); font-weight: 600; margin-left: 4px; }
     #current .status { flex: none; color: var(--ok); font-size: 11px; font-weight: 600; }
     #current button.go { width: 26px; height: 24px; }
@@ -109,6 +112,10 @@
     button.link { background: none; color: var(--accent); padding: 0; font-weight: 500; }
     button.link:hover { text-decoration: underline; background: none; }
     button.link.on { font-weight: 700; }
+    /* Site ID number: looks like text until hovered, click copies it */
+    button.copyid { background: none; color: inherit; font-weight: 700; padding: 0 2px; border-radius: 4px; }
+    button.copyid:hover, button.copyid:focus-visible { background: var(--line); color: var(--fg); text-decoration: underline; outline: none; }
+    button.copyid.copied, button.copyid.copied:hover { background: none; color: var(--ok); text-decoration: none; }
     /* Small icon buttons: pin (shows on hover, or always when pinned) and the ⋯ menu */
     button.icon {
       background: none; color: var(--muted); padding: 4px; border-radius: 6px; line-height: 0;
@@ -161,7 +168,10 @@
   </header>
   <div id="current">
     <span class="label">This tab</span>
-    <span class="nm"></span>
+    <span class="info">
+      <span class="nm"></span>
+      <span class="sid"></span>
+    </span>
     <span class="status" hidden>✓ Logged in</span>
     <button id="currentGo" class="go" hidden></button>
   </div>
